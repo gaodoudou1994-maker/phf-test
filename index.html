@@ -952,92 +952,108 @@
 // ===== DATA =====
 const questions = [
   {
+    // Q1: 区分 ROI/BROKE vs IDGAF/VET vs LUNCH vs MENU
     scene: { icon: '⏰', text: '场景：快到饭点了' },
     text: '快到饭点了，你的第一反应是？',
     options: [
-      { letter: 'A', text: '打开外卖 App 看看今天有什么优惠' },
-      { letter: 'B', text: '问同事"你们去哪吃"' },
-      { letter: 'C', text: '已经想好了，昨晚就决定了' },
-      { letter: 'D', text: '随便，吃什么都行' }
+      { letter: 'A', text: '打开外卖 App 看看今天有什么优惠券' },
+      { letter: 'B', text: '已经想好了，昨晚就决定好了' },
+      { letter: 'C', text: '问同事"你们去哪吃，我跟着"' },
+      { letter: 'D', text: '还没想，到时候再说吧' }
     ],
-    scores: { ROI: [3,0,1,0], MENU: [0,0,3,1], SOLO: [1,0,2,0], VET: [0,1,0,2], LUNCH: [0,0,3,0], BROKE: [3,0,0,0], CTRL: [0,0,0,3], IDGAF: [0,1,0,3] }
+    // A→ROI/BROKE  B→LUNCH/VET  C→IDGAF  D→MENU/CTRL
+    scores: { ROI: [3,0,0,0], MENU: [0,0,0,3], SOLO: [0,1,0,0], VET: [0,2,0,0], LUNCH: [0,3,0,0], BROKE: [3,0,0,0], CTRL: [0,0,0,2], IDGAF: [0,0,3,1] }
   },
   {
+    // Q2: 区分 BROKE vs ROI vs MENU vs IDGAF
     scene: { icon: '💰', text: '场景：看到外卖价格' },
     text: '点外卖时看到一份饭要38元，你会？',
     options: [
-      { letter: 'A', text: '直接关掉，太贵了，换一家' },
-      { letter: 'B', text: '纠结半天，最后还是点了' },
-      { letter: 'C', text: '看看评分和评论再决定' },
-      { letter: 'D', text: '无所谓，好吃就行' }
+      { letter: 'A', text: '直接关掉，超出预算了，找15元以下的' },
+      { letter: 'B', text: '纠结半天，看了又看，很难决定' },
+      { letter: 'C', text: '算算性价比，评分高量大就值得点' },
+      { letter: 'D', text: '无所谓，好吃就行，不在乎价格' }
     ],
-    scores: { ROI: [3,0,1,0], MENU: [0,3,0,0], SOLO: [0,1,2,0], VET: [0,0,3,0], LUNCH: [0,1,2,0], BROKE: [3,0,0,0], CTRL: [0,2,0,1], IDGAF: [0,0,0,3] }
+    // A→BROKE  B→MENU  C→ROI/VET  D→IDGAF/CTRL
+    scores: { ROI: [0,0,3,0], MENU: [0,3,0,0], SOLO: [0,0,1,0], VET: [0,0,2,0], LUNCH: [0,0,1,0], BROKE: [3,0,0,0], CTRL: [0,0,0,2], IDGAF: [0,0,0,3] }
   },
   {
+    // Q3: 区分 SOLO vs IDGAF vs ROI vs LUNCH
     scene: { icon: '👥', text: '场景：同事约你一起订外卖' },
     text: '同事说"一起拼单吧，能凑满减"，你的反应？',
     options: [
-      { letter: 'A', text: '好啊！凑满减省钱' },
-      { letter: 'B', text: '要看他们点什么，我有自己想吃的' },
-      { letter: 'C', text: '不了，我自己点，不想将就别人' },
-      { letter: 'D', text: '随你们，我没意见' }
+      { letter: 'A', text: '好啊！凑满减省钱，我支持' },
+      { letter: 'B', text: '不了，我自己点，不想将就别人口味' },
+      { letter: 'C', text: '要看他们点什么，我有自己想吃的' },
+      { letter: 'D', text: '随你们，我没意见，你们定就行' }
     ],
-    scores: { ROI: [3,0,0,0], MENU: [0,3,0,0], SOLO: [0,1,3,0], VET: [1,0,0,2], LUNCH: [0,2,0,1], BROKE: [3,0,0,0], CTRL: [0,0,2,1], IDGAF: [0,0,0,3] }
+    // A→ROI/BROKE  B→SOLO  C→MENU/LUNCH  D→IDGAF
+    scores: { ROI: [3,0,0,0], MENU: [0,0,2,0], SOLO: [0,3,0,0], VET: [1,0,1,0], LUNCH: [0,0,2,0], BROKE: [2,0,0,0], CTRL: [0,1,0,0], IDGAF: [0,0,0,3] }
   },
   {
+    // Q4: 区分 MENU vs VET vs CTRL vs LUNCH
     scene: { icon: '🤔', text: '场景：选餐纠结时刻' },
-    text: '面对菜单，你通常会？',
+    text: '面对外卖菜单，你通常是哪种状态？',
     options: [
-      { letter: 'A', text: '直接看价格，从低到高选' },
-      { letter: 'B', text: '每道菜都要看一遍，很难决定' },
-      { letter: 'C', text: '有固定的几道菜，基本不换' },
-      { letter: 'D', text: '让别人帮我选，我都行' }
+      { letter: 'A', text: '每道菜都要看一遍，选了又改，很难下单' },
+      { letter: 'B', text: '有固定的几道菜，基本不换，稳定出品' },
+      { letter: 'C', text: '专门找没吃过的新店新菜，越新越好' },
+      { letter: 'D', text: '直接看价格排序，从低到高选' }
     ],
-    scores: { ROI: [3,0,0,0], MENU: [0,3,0,0], SOLO: [0,0,3,0], VET: [0,0,3,0], LUNCH: [0,2,1,0], BROKE: [3,0,0,0], CTRL: [0,0,2,1], IDGAF: [0,0,0,3] }
+    // A→MENU  B→VET/LUNCH  C→CTRL  D→ROI/BROKE
+    scores: { ROI: [0,0,0,3], MENU: [3,0,0,0], SOLO: [0,1,0,0], VET: [0,3,0,0], LUNCH: [0,2,0,0], BROKE: [0,0,0,2], CTRL: [0,0,3,0], IDGAF: [1,0,0,0] }
   },
   {
+    // Q5: 区分 ROI vs BROKE vs VET vs IDGAF vs SOLO
     scene: { icon: '😤', text: '场景：外卖踩雷了' },
     text: '点的外卖难吃，你会怎么做？',
     options: [
-      { letter: 'A', text: '申请退款，这钱不能白花' },
-      { letter: 'B', text: '给差评，警告后来人' },
-      { letter: 'C', text: '默默吃完，下次不点了' },
-      { letter: 'D', text: '无所谓，凑合吃吧' }
+      { letter: 'A', text: '申请退款，这钱不能白花，必须要回来' },
+      { letter: 'B', text: '给差评，详细写明问题，警告后来人' },
+      { letter: 'C', text: '默默吃完，拉黑这家，下次绝不再点' },
+      { letter: 'D', text: '无所谓，凑合吃吧，也没那么难吃' }
     ],
-    scores: { ROI: [3,0,0,0], MENU: [0,2,1,0], SOLO: [0,0,3,0], VET: [0,3,0,0], LUNCH: [0,2,1,0], BROKE: [3,0,0,0], CTRL: [0,1,2,0], IDGAF: [0,0,0,3] }
+    // A→ROI  B→VET  C→SOLO/LUNCH/BROKE  D→IDGAF
+    scores: { ROI: [3,0,0,0], MENU: [0,1,0,0], SOLO: [0,0,2,0], VET: [0,3,0,0], LUNCH: [0,0,2,0], BROKE: [0,0,3,0], CTRL: [0,0,1,0], IDGAF: [0,0,0,3] }
   },
   {
+    // Q6: 区分 LUNCH vs CTRL vs IDGAF vs BROKE
     scene: { icon: '🏃', text: '场景：午休时间有限' },
-    text: '只有30分钟午休，你会？',
+    text: '只有30分钟午休，你会怎么处理午饭？',
     options: [
-      { letter: 'A', text: '提前订好，掐点送到' },
-      { letter: 'B', text: '随便点个快的，不纠结了' },
-      { letter: 'C', text: '昨天就想好了，今天直接下单' },
-      { letter: 'D', text: '不吃了，睡一会儿更重要' }
+      { letter: 'A', text: '昨晚就想好了，今天直接下单，分秒必争' },
+      { letter: 'B', text: '随便点个快的，不纠结，填饱肚子就行' },
+      { letter: 'C', text: '趁机试试附近新开的那家，说不定有惊喜' },
+      { letter: 'D', text: '找个便宜又快的，省钱省时间两不误' }
     ],
-    scores: { ROI: [2,0,1,0], MENU: [0,3,0,0], SOLO: [0,0,3,0], VET: [3,0,0,0], LUNCH: [3,0,0,0], BROKE: [1,0,0,2], CTRL: [0,0,3,0], IDGAF: [0,0,0,3] }
+    // A→LUNCH/VET  B→IDGAF/MENU  C→CTRL  D→ROI/BROKE
+    scores: { ROI: [0,0,0,3], MENU: [0,2,0,0], SOLO: [1,0,0,0], VET: [2,0,0,0], LUNCH: [3,0,0,0], BROKE: [0,0,0,2], CTRL: [0,0,3,0], IDGAF: [0,3,0,0] }
   },
   {
+    // Q7: 区分 BROKE vs SOLO vs VET vs CTRL
     scene: { icon: '💬', text: '场景：同事问你推荐' },
     text: '同事问"你知道附近哪里好吃吗"，你会？',
     options: [
-      { letter: 'A', text: '推荐性价比最高的那家' },
-      { letter: 'B', text: '给他看我收藏的美食清单' },
-      { letter: 'C', text: '不太清楚，我一般自己点' },
-      { letter: 'D', text: '随便说一家，反正都差不多' }
+      { letter: 'A', text: '推荐那家性价比最高的，便宜量大味道好' },
+      { letter: 'B', text: '推荐我常去的那几家，踩雷率极低' },
+      { letter: 'C', text: '给他看我最近发现的新店，强烈安利' },
+      { letter: 'D', text: '不太清楚，我一般自己点，不太关注别家' }
     ],
-    scores: { ROI: [3,0,0,0], MENU: [0,3,0,0], SOLO: [0,0,3,0], VET: [0,2,1,0], LUNCH: [0,3,0,0], BROKE: [3,0,0,0], CTRL: [0,0,2,1], IDGAF: [0,0,0,3] }
+    // A→ROI/BROKE  B→VET  C→CTRL  D→SOLO
+    scores: { ROI: [2,0,0,0], MENU: [0,0,0,1], SOLO: [0,0,0,3], VET: [0,3,0,0], LUNCH: [0,1,0,0], BROKE: [3,0,0,0], CTRL: [0,0,3,0], IDGAF: [1,0,0,0] }
   },
   {
+    // Q8: 区分所有8种，最终定性题
     scene: { icon: '🌟', text: '场景：理想的午饭' },
     text: '你心目中完美的工作日午饭是？',
     options: [
-      { letter: 'A', text: '花最少的钱，吃到最满意的饭' },
-      { letter: 'B', text: '每天都能吃到不一样的新东西' },
-      { letter: 'C', text: '安静地吃自己喜欢的，不被打扰' },
-      { letter: 'D', text: '和同事一起，吃什么不重要' }
+      { letter: 'A', text: '花最少的钱，吃到最满意的饭，ROI最大化' },
+      { letter: 'B', text: '每天换着吃，今天川菜明天日料，不重样' },
+      { letter: 'C', text: '安静地吃自己喜欢的，不被打扰，独享时光' },
+      { letter: 'D', text: '和同事一起热闹吃，吃什么不重要，氛围好' }
     ],
-    scores: { ROI: [3,0,0,0], MENU: [0,3,0,0], SOLO: [0,0,3,0], VET: [1,0,0,2], LUNCH: [0,2,0,1], BROKE: [3,0,0,0], CTRL: [0,0,2,1], IDGAF: [0,0,0,3] }
+    // A→ROI/BROKE  B→CTRL/MENU  C→SOLO/LUNCH  D→IDGAF/VET
+    scores: { ROI: [3,0,0,0], MENU: [0,2,0,0], SOLO: [0,0,3,0], VET: [0,0,0,2], LUNCH: [0,0,2,0], BROKE: [2,0,0,0], CTRL: [0,3,0,0], IDGAF: [0,0,0,3] }
   }
 ];
 
