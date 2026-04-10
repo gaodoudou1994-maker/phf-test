@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>打工人饭搭子人格测试</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --orange: #FF6B35;
+    --orange-light: #FF8C5A;
+    --orange-pale: #FFF0EB;
+    --dark: #1A1A1A;
+    --gray: #666;
+    --gray-light: #F5F5F5;
+    --white: #FFFFFF;
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(255,107,53,0.15);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: #FFF8F5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .app {
+    width: 100%;
+    max-width: 390px;
+    min-height: 100vh;
+    background: #FFF8F5;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ===== SCREENS ===== */
+  .screen {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    flex-direction: column;
+    animation: fadeIn 0.4s ease;
+  }
+  .screen.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== SCREEN 1: INTRO ===== */
+  #screen-intro {
+    background: linear-gradient(160deg, #FF6B35 0%, #FF4500 60%, #CC2200 100%);
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 28px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #screen-intro::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 280px; height: 280px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+  #screen-intro::after {
+    content: '';
+    position: absolute;
+    bottom: 60px; left: -60px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+
+  .intro-top { text-align: center; z-index: 1; }
+
+  .intro-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+  }
+
+  .intro-emoji {
+    font-size: 72px;
+    display: block;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .intro-title {
+    color: white;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .intro-subtitle {
+    color: rgba(255,255,255,0.85);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .intro-stats {
+    display: flex;
+    gap: 20px;
+    z-index: 1;
+    margin: 32px 0;
+  }
+
+  .stat-item {
+    flex: 1;
+    background: rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+  }
+
+  .stat-num {
+    color: white;
+    font-size: 22px;
+    font-weight: 800;
+    display: block;
+  }
+
+  .stat-label {
+    color: rgba(255,255,255,0.8);
+    font-size: 11px;
+    margin-top: 2px;
+  }
+
+  .intro-bottom { width: 100%; z-index: 1; }
+
+  .btn-start {
+    width: 100%;
+    background: white;
+    color: var(--orange);
+    border: none;
+    border-radius: 50px;
+    padding: 18px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    transition: transform 0.15s, box-shadow 0.15s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-start:active { transform: scale(0.97); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+
+  .intro-tip {
+    text-align: center;
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+    margin-top: 14px;
+  }
+
+  /* ===== SCREEN 2: QUESTION ===== */
+  #screen-question {
+    padding: 0;
+    background: #FFF8F5;
+  }
+
+  .q-header {
+    padding: 52px 24px 20px;
+    background: white;
+    border-bottom: 1px solid #F0EDE8;
+  }
+
+  .progress-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .progress-label {
+    font-size: 13px;
+    color: var(--gray);
+    font-weight: 500;
+  }
+
+  .progress-count {
+    font-size: 13px;
+    color: var(--orange);
+    font-weight: 700;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: #F0EDE8;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--orange), var(--orange-light));
+    border-radius: 3px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .q-body {
+    padding: 28px 24px;
+    flex: 1;
+  }
+
+  .q-scene {
+    background: var(--orange-pale);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .q-scene-icon { font-size: 20px; }
+
+  .q-scene-text {
+    font-size: 13px;
+    color: var(--orange);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .q-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.5;
+    margin-bottom: 28px;
+    letter-spacing: -0.3px;
+  }
+
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option-btn {
+    background: white;
+    border: 2px solid #EDE8E3;
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .option-btn:active { transform: scale(0.98); }
+
+  .option-btn.selected {
+    border-color: var(--orange);
+    background: var(--orange-pale);
+  }
+
+  .option-letter {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #F0EDE8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .option-btn.selected .option-letter {
+    background: var(--orange);
+    color: white;
+  }
+
+  .option-text {
+    font-size: 15px;
+    color: var(--dark);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .q-footer {
+    padding: 16px 24px 32px;
+    background: white;
+    border-top: 1px solid #F0EDE8;
+  }
+
+  .btn-next {
+    width: 100%;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .btn-next.enabled {
+    opacity: 1;
+    pointer-events: auto;
+    box-shadow: 0 6px 20px rgba(255,107,53,0.35);
+  }
+
+  .btn-next.enabled:active { transform: scale(0.97); }
+
+  /* ===== SCREEN 3: LOADING ===== */
+  #screen-loading {
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #FF6B35 0%, #FF4500 100%);
+    padding: 40px 28px;
+    text-align: center;
+  }
+
+  .loading-emoji {
+    font-size: 64px;
+    margin-bottom: 24px;
+    animation: spin 1.5s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .loading-title {
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .loading-sub {
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+
+  .loading-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .dot {
+    width: 10px; height: 10px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    animation: dotPulse 1.2s infinite;
+  }
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dotPulse {
+    0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+    40% { transform: scale(1.2); opacity: 1; background: white; }
+  }
+
+  /* ===== SCREEN 4: RESULT ===== */
+  #screen-result {
+    background: #FFF8F5;
+    padding-bottom: 40px;
+  }
+
+  .result-hero {
+    background: linear-gradient(160deg, #FF6B35 0%, #FF4500 100%);
+    padding: 52px 28px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+
+  .result-type-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+  }
+
+  .result-emoji {
+    font-size: 80px;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .result-name {
+    color: white;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .result-tagline {
+    color: rgba(255,255,255,0.9);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .result-body {
+    padding: 24px 20px 0;
+  }
+
+  .result-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+
+  .card-title {
+    font-size: 13px;
+    color: var(--gray);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .trait-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .trait-tag {
+    background: var(--orange-pale);
+    color: var(--orange);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+  }
+
+  .desc-text {
+    font-size: 15px;
+    color: var(--dark);
+    line-height: 1.7;
+  }
+
+  /* 拼好饭种草卡片 */
+  .phf-card {
+    background: linear-gradient(135deg, #FFF0EB 0%, #FFE4D6 100%);
+    border: 1.5px solid rgba(255,107,53,0.2);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .phf-card::before {
+    content: '🍱';
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    font-size: 32px;
+    opacity: 0.3;
+  }
+
+  .phf-label {
+    font-size: 11px;
+    color: var(--orange);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .phf-headline {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .phf-body {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .phf-proof {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .proof-item {
+    background: white;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--dark);
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .proof-item span {
+    color: var(--orange);
+  }
+
+  .btn-phf {
+    width: 100%;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(255,107,53,0.3);
+  }
+
+  .btn-phf:active { transform: scale(0.97); }
+
+  /* 好友匹配 */
+  .match-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+
+  .match-types {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .match-item {
+    flex: 1;
+    text-align: center;
+    padding: 14px 8px;
+    border-radius: 12px;
+    background: var(--gray-light);
+  }
+
+  .match-item.good { background: #E8F5E9; }
+  .match-item.bad { background: #FFF3E0; }
+
+  .match-emoji { font-size: 28px; display: block; margin-bottom: 6px; }
+  .match-name { font-size: 12px; font-weight: 700; color: var(--dark); }
+  .match-label { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+  /* 分享区 */
+  .share-section {
+    padding: 0 20px;
+  }
+
+  .share-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    margin-bottom: 14px;
+  }
+
+  .share-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+
+  .share-sub {
+    font-size: 13px;
+    color: var(--gray);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .share-btns {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-share-wx {
+    flex: 1;
+    background: #07C160;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 13px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-share-copy {
+    flex: 1;
+    background: var(--gray-light);
+    color: var(--dark);
+    border: none;
+    border-radius: 50px;
+    padding: 13px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-retry {
+    width: 100%;
+    background: transparent;
+    color: var(--gray);
+    border: 1.5px solid #DDD;
+    border-radius: 50px;
+    padding: 13px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0 20px;
+    width: calc(100% - 40px);
+    display: block;
+  }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 999;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ===== SHARE OVERLAY ===== */
+  .share-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 100;
+    align-items: flex-end;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .share-overlay.active { display: flex; }
+
+  .share-sheet {
+    width: 100%;
+    background: white;
+    border-radius: 20px 20px 0 0;
+    padding: 24px 20px 40px;
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .share-sheet-title {
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--dark);
+  }
+
+  /* 分享卡片预览 */
+  .share-preview {
+    background: linear-gradient(135deg, #FF6B35, #FF4500);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .share-preview::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+  }
+
+  .sp-emoji { font-size: 48px; display: block; margin-bottom: 8px; }
+  .sp-type { color: rgba(255,255,255,0.8); font-size: 12px; letter-spacing: 2px; margin-bottom: 4px; }
+  .sp-name { color: white; font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .sp-quote { color: rgba(255,255,255,0.9); font-size: 13px; line-height: 1.5; }
+  .sp-footer { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.2); }
+  .sp-footer-text { color: rgba(255,255,255,0.7); font-size: 11px; }
+  .sp-footer-brand { color: white; font-size: 13px; font-weight: 700; }
+
+  .share-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-close-sheet {
+    width: 100%;
+    background: var(--gray-light);
+    color: var(--dark);
+    border: none;
+    border-radius: 50px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SCREEN 1: INTRO -->
+  <div id="screen-intro" class="screen active">
+    <div class="intro-top">
+      <div class="intro-badge">🔥 打工人必测</div>
+      <span class="intro-emoji">🍜</span>
+      <h1 class="intro-title">你是哪种<br>打工人饭搭子？</h1>
+      <p class="intro-subtitle">8道题揭秘你的午饭人格<br>顺便找到你的命中饭搭子</p>
+    </div>
+
+    <div class="intro-stats">
+      <div class="stat-item">
+        <span class="stat-num">8</span>
+        <div class="stat-label">种人格</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">8题</span>
+        <div class="stat-label">快速测完</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">3min</span>
+        <div class="stat-label">测试时长</div>
+      </div>
+    </div>
+
+    <div class="intro-bottom">
+      <button class="btn-start" onclick="startTest()">开始测试 →</button>
+      <p class="intro-tip">已有 128,493 位打工人完成测试</p>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: QUESTION -->
+  <div id="screen-question" class="screen">
+    <div class="q-header">
+      <div class="progress-row">
+        <span class="progress-label">测试进度</span>
+        <span class="progress-count" id="progress-count">1 / 8</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width: 12.5%"></div>
+      </div>
+    </div>
+
+    <div class="q-body">
+      <div class="q-scene" id="q-scene">
+        <span class="q-scene-icon">⏰</span>
+        <span class="q-scene-text">场景：快到饭点了</span>
+      </div>
+      <div class="q-text" id="q-text">快到饭点了，你的第一反应是？</div>
+      <div class="options-list" id="options-list"></div>
+    </div>
+
+    <div class="q-footer">
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()">下一题</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: LOADING -->
+  <div id="screen-loading" class="screen">
+    <span class="loading-emoji">🔮</span>
+    <div class="loading-title">正在分析你的饭搭子人格…</div>
+    <div class="loading-sub">综合你的 8 个选择<br>匹配最适合你的午饭模式</div>
+    <div class="loading-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: RESULT -->
+  <div id="screen-result" class="screen">
+    <div class="result-hero">
+      <div class="result-type-badge" id="result-type-badge">ROI-er</div>
+      <span class="result-emoji" id="result-emoji">🧮</span>
+      <div class="result-name" id="result-name">算账人</div>
+      <div class="result-tagline" id="result-tagline">每一分钱都要花在刀刃上</div>
+    </div>
+
+    <div class="result-body">
+      <!-- 人格特质 -->
+      <div class="result-card">
+        <div class="card-title">你的饭搭子特质</div>
+        <div class="trait-list" id="trait-list"></div>
+      </div>
+
+      <!-- 人格描述 -->
+      <div class="result-card">
+        <div class="card-title">深度解析</div>
+        <div class="desc-text" id="desc-text"></div>
+      </div>
+
+      <!-- 拼好饭种草卡 -->
+      <div class="phf-card">
+        <div class="phf-label">✦ 为你推荐</div>
+        <div class="phf-headline" id="phf-headline">算账人的午饭公式</div>
+        <div class="phf-body" id="phf-body">拼好饭帮你把午饭成本压到最低，还不用将就难吃的外卖。</div>
+        <div class="phf-proof" id="phf-proof"></div>
+        <button class="btn-phf" onclick="showToast('🎉 已为你领取专属优惠券！')">
+          领取首单专属优惠 →
+        </button>
+      </div>
+
+      <!-- 好友匹配 -->
+      <div class="match-card">
+        <div class="card-title">饭搭子匹配</div>
+        <div class="match-types" id="match-types"></div>
+      </div>
+    </div>
+
+    <!-- 分享区 -->
+    <div class="share-section">
+      <div class="share-card">
+        <div class="share-title">分享给同事，找到你的饭搭子 🍱</div>
+        <div class="share-sub">看看你们是天生一对还是饭桌冤家</div>
+        <div class="share-btns">
+          <button class="btn-share-wx" onclick="openShareSheet()">分享到微信</button>
+          <button class="btn-share-copy" onclick="copyLink()">复制链接</button>
+        </div>
+      </div>
+      <button class="btn-retry" onclick="retryTest()">重新测试</button>
+    </div>
+  </div>
+
+  <!-- SHARE OVERLAY -->
+  <div class="share-overlay" id="share-overlay" onclick="closeShareSheet(event)">
+    <div class="share-sheet">
+      <div class="share-sheet-title">分享你的饭搭子人格</div>
+      <div class="share-preview">
+        <span class="sp-emoji" id="sp-emoji">🧮</span>
+        <div class="sp-type" id="sp-type">ROI-er</div>
+        <div class="sp-name" id="sp-name">算账人</div>
+        <div class="sp-quote" id="sp-quote">"每一分钱都要花在刀刃上"</div>
+        <div class="sp-footer">
+          <div class="sp-footer-text">我在拼好饭测出了我的饭搭子人格</div>
+          <div class="sp-footer-brand">拼好饭 · 好吃不贵，一起拼</div>
+        </div>
+      </div>
+      <div class="share-actions">
+        <button class="btn-share-wx" style="flex:1" onclick="showToast('📱 已生成分享图，请保存后发送')">保存图片分享</button>
+        <button class="btn-share-copy" style="flex:1" onclick="copyLink()">复制链接</button>
+      </div>
+      <button class="btn-close-sheet" onclick="closeShareSheet()">取消</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+// ===== DATA =====
+const questions = [
+  {
+    scene: { icon: '⏰', text: '场景：快到饭点了' },
+    text: '快到饭点了，你的第一反应是？',
+    options: [
+      { letter: 'A', text: '打开外卖 App 看看今天有什么优惠' },
+      { letter: 'B', text: '问同事"你们去哪吃"' },
+      { letter: 'C', text: '已经想好了，昨晚就决定了' },
+      { letter: 'D', text: '随便，吃什么都行' }
+    ],
+    scores: { ROI: [3,0,1,0], MENU: [0,0,3,1], SOLO: [1,0,2,0], VET: [0,1,0,2], LUNCH: [0,0,3,0], BROKE: [3,0,0,0], CTRL: [0,0,0,3], IDGAF: [0,1,0,3] }
+  },
+  {
+    scene: { icon: '💰', text: '场景：看到外卖价格' },
+    text: '点外卖时看到一份饭要38元，你会？',
+    options: [
+      { letter: 'A', text: '直接关掉，太贵了，换一家' },
+      { letter: 'B', text: '纠结半天，最后还是点了' },
+      { letter: 'C', text: '看看评分和评论再决定' },
+      { letter: 'D', text: '无所谓，好吃就行' }
+    ],
+    scores: { ROI: [3,0,1,0], MENU: [0,3,0,0], SOLO: [0,1,2,0], VET: [0,0,3,0], LUNCH: [0,1,2,0], BROKE: [3,0,0,0], CTRL: [0,2,0,1], IDGAF: [0,0,0,3] }
+  },
+  {
+    scene: { icon: '👥', text: '场景：同事约你一起订外卖' },
+    text: '同事说"一起拼单吧，能凑满减"，你的反应？',
+    options: [
+      { letter: 'A', text: '好啊！凑满减省钱' },
+      { letter: 'B', text: '要看他们点什么，我有自己想吃的' },
+      { letter: 'C', text: '不了，我自己点，不想将就别人' },
+      { letter: 'D', text: '随你们，我没意见' }
+    ],
+    scores: { ROI: [3,0,0,0], MENU: [0,3,0,0], SOLO: [0,1,3,0], VET: [1,0,0,2], LUNCH: [0,2,0,1], BROKE: [3,0,0,0], CTRL: [0,0,2,1], IDGAF: [0,0,0,3] }
+  },
+  {
+    scene: { icon: '🤔', text: '场景：选餐纠结时刻' },
+    text: '面对菜单，你通常会？',
+    options: [
+      { letter: 'A', text: '直接看价格，从低到高选' },
+      { letter: 'B', text: '每道菜都要看一遍，很难决定' },
+      { letter: 'C', text: '有固定的几道菜，基本不换' },
+      { letter: 'D', text: '让别人帮我选，我都行' }
+    ],
+    scores: { ROI: [3,0,0,0], MENU: [0,3,0,0], SOLO: [0,0,3,0], VET: [0,0,3,0], LUNCH: [0,2,1,0], BROKE: [3,0,0,0], CTRL: [0,0,2,1], IDGAF: [0,0,0,3] }
+  },
+  {
+    scene: { icon: '😤', text: '场景：外卖踩雷了' },
+    text: '点的外卖难吃，你会怎么做？',
+    options: [
+      { letter: 'A', text: '申请退款，这钱不能白花' },
+      { letter: 'B', text: '给差评，警告后来人' },
+      { letter: 'C', text: '默默吃完，下次不点了' },
+      { letter: 'D', text: '无所谓，凑合吃吧' }
+    ],
+    scores: { ROI: [3,0,0,0], MENU: [0,2,1,0], SOLO: [0,0,3,0], VET: [0,3,0,0], LUNCH: [0,2,1,0], BROKE: [3,0,0,0], CTRL: [0,1,2,0], IDGAF: [0,0,0,3] }
+  },
+  {
+    scene: { icon: '🏃', text: '场景：午休时间有限' },
+    text: '只有30分钟午休，你会？',
+    options: [
+      { letter: 'A', text: '提前订好，掐点送到' },
+      { letter: 'B', text: '随便点个快的，不纠结了' },
+      { letter: 'C', text: '昨天就想好了，今天直接下单' },
+      { letter: 'D', text: '不吃了，睡一会儿更重要' }
+    ],
+    scores: { ROI: [2,0,1,0], MENU: [0,3,0,0], SOLO: [0,0,3,0], VET: [3,0,0,0], LUNCH: [3,0,0,0], BROKE: [1,0,0,2], CTRL: [0,0,3,0], IDGAF: [0,0,0,3] }
+  },
+  {
+    scene: { icon: '💬', text: '场景：同事问你推荐' },
+    text: '同事问"你知道附近哪里好吃吗"，你会？',
+    options: [
+      { letter: 'A', text: '推荐性价比最高的那家' },
+      { letter: 'B', text: '给他看我收藏的美食清单' },
+      { letter: 'C', text: '不太清楚，我一般自己点' },
+      { letter: 'D', text: '随便说一家，反正都差不多' }
+    ],
+    scores: { ROI: [3,0,0,0], MENU: [0,3,0,0], SOLO: [0,0,3,0], VET: [0,2,1,0], LUNCH: [0,3,0,0], BROKE: [3,0,0,0], CTRL: [0,0,2,1], IDGAF: [0,0,0,3] }
+  },
+  {
+    scene: { icon: '🌟', text: '场景：理想的午饭' },
+    text: '你心目中完美的工作日午饭是？',
+    options: [
+      { letter: 'A', text: '花最少的钱，吃到最满意的饭' },
+      { letter: 'B', text: '每天都能吃到不一样的新东西' },
+      { letter: 'C', text: '安静地吃自己喜欢的，不被打扰' },
+      { letter: 'D', text: '和同事一起，吃什么不重要' }
+    ],
+    scores: { ROI: [3,0,0,0], MENU: [0,3,0,0], SOLO: [0,0,3,0], VET: [1,0,0,2], LUNCH: [0,2,0,1], BROKE: [3,0,0,0], CTRL: [0,0,2,1], IDGAF: [0,0,0,3] }
+  }
+];
+
+const personalities = {
+  ROI: {
+    badge: 'ROI-er',
+    emoji: '🧮',
+    name: '算账人',
+    tagline: '每一分钱都要花在刀刃上',
+    traits: ['性价比猎手', '满减达人', '精打细算', '不将就'],
+    desc: '你对午饭的态度极其理性——不是不舍得花钱，而是每一分钱都要花得值。你会货比三家，会等满减，会算配送费，但你绝不会为了省钱而将就难吃的东西。你的目标是：花最少的钱，吃最好的饭。',
+    phf: {
+      headline: '算账人的午饭公式：好吃 ÷ 价格 = 最大值',
+      body: '拼好饭专为你这种人设计——多人拼单摊薄配送费，品牌餐厅的品质，外卖价格的7折。你的ROI计算器会爱上它。',
+      proof: [
+        { label: '人均', value: '¥15起' },
+        { label: '品牌餐厅', value: '品质保障' },
+        { label: '拼单省', value: '最高40%' }
+      ]
+    },
+    good: { emoji: '🤝', name: 'IDGAF-er', label: '无所谓人', reason: '你来决策，他来配合' },
+    bad: { emoji: '⚡', name: 'MENU-死', label: '选死人', reason: '一个要省钱一个要选遍' }
+  },
+  MENU: {
+    badge: 'MENU-死',
+    emoji: '🌀',
+    name: '选死人',
+    tagline: '选择困难是一种病，我病得不轻',
+    traits: ['选择困难', '美食探索家', '纠结星人', '好奇心强'],
+    desc: '你不是不知道自己想吃什么，你只是想把所有好吃的都吃一遍。每次打开外卖App都是一场冒险，你会在A和B之间反复横跳，最终在饭点前5分钟做出决定，然后立刻后悔没选另一个。',
+    phf: {
+      headline: '选死人的救星：每天换着吃，不重样',
+      body: '拼好饭每天上新，多家品牌餐厅轮换，帮你把"今天吃什么"变成一件有趣的事而不是折磨。',
+      proof: [
+        { label: '每日上新', value: '多品类' },
+        { label: '品牌数', value: '100+' },
+        { label: '决策时间', value: '< 1分钟' }
+      ]
+    },
+    good: { emoji: '🤝', name: 'VET-er', label: '老油条', reason: '老油条帮你快速拍板' },
+    bad: { emoji: '⚡', name: 'LUNCH-OCD', label: '饭执者', reason: '两个都有主见，必然冲突' }
+  },
+  SOLO: {
+    badge: 'SOLO-eat',
+    emoji: '🎧',
+    name: '独食者',
+    tagline: '一个人吃饭，是一种享受',
+    traits: ['独立自主', '不将就', '高效率', '有品位'],
+    desc: '你不是不合群，你只是不想在吃饭这件事上将就别人。一个人吃饭，可以点自己最想吃的，可以吃得快或慢，可以边吃边刷手机。你把午饭时间当作一天中难得的独处时光。',
+    phf: {
+      headline: '独食者的专属方案：一个人也能拼',
+      body: '拼好饭支持单人下单，系统自动帮你匹配附近的拼单伙伴，你不需要认识任何人，就能享受拼单价格。',
+      proof: [
+        { label: '单人可拼', value: '无需组队' },
+        { label: '自动匹配', value: '附近拼友' },
+        { label: '独享', value: '品牌品质' }
+      ]
+    },
+    good: { emoji: '🤝', name: 'ROI-er', label: '算账人', reason: '都不废话，高效完成午饭' },
+    bad: { emoji: '⚡', name: 'IDGAF-er', label: '无所谓人', reason: '你有主见，他没意见，反而尬' }
+  },
+  VET: {
+    badge: 'VET-er',
+    emoji: '🧓',
+    name: '老油条',
+    tagline: '我见过的外卖踩雷比你吃过的饭还多',
+    traits: ['经验丰富', '避雷专家', '效率优先', '务实主义'],
+    desc: '你是办公室里的外卖活地图。哪家好吃、哪家踩雷、哪家配送慢，你都门儿清。你不追新，不跟风，只相信自己踩过坑之后总结出来的经验。你的午饭选择永远稳定，因为你早就把所有坑都踩过了。',
+    phf: {
+      headline: '老油条的信任来自品牌背书',
+      body: '拼好饭只引入经过严选的品牌餐厅，不是随便一家小店。你的经验告诉你：品牌餐厅出品稳定，不踩雷。',
+      proof: [
+        { label: '品牌严选', value: '质量稳定' },
+        { label: '踩雷率', value: '极低' },
+        { label: '老用户', value: '回购率高' }
+      ]
+    },
+    good: { emoji: '🤝', name: 'MENU-死', label: '选死人', reason: '你帮他做决定，他感激涕零' },
+    bad: { emoji: '⚡', name: 'CTRL-F5', label: '刷新者', reason: '你嫌他太随意，他嫌你太保守' }
+  },
+  LUNCH: {
+    badge: 'LUNCH-OCD',
+    emoji: '📋',
+    name: '饭执者',
+    tagline: '午饭是一件严肃的事',
+    traits: ['计划达人', '仪式感强', '高标准', '不妥协'],
+    desc: '你对午饭有自己的一套标准和仪式感。你可能昨晚就想好了今天吃什么，你会提前研究菜单，你对食物的品质有要求。在你看来，午饭不只是填饱肚子，它是一天中值得认真对待的事。',
+    phf: {
+      headline: '饭执者的午饭，值得认真对待',
+      body: '拼好饭的品牌餐厅出品稳定，食材有保障。你的高标准，在这里能得到满足，而且价格比你想象的更合理。',
+      proof: [
+        { label: '食材', value: '品牌保障' },
+        { label: '出品', value: '标准化稳定' },
+        { label: '性价比', value: '超出预期' }
+      ]
+    },
+    good: { emoji: '🤝', name: 'ROI-er', label: '算账人', reason: '一个管品质，一个管价格，完美搭档' },
+    bad: { emoji: '⚡', name: 'IDGAF-er', label: '无所谓人', reason: '你认真，他随意，三观不合' }
+  },
+  BROKE: {
+    badge: 'BROKE-chic',
+    emoji: '💅',
+    name: '穷精致',
+    tagline: '预算有限，但品位不能将就',
+    traits: ['精致穷', '颜值控', '性价比美学', '生活品质感'],
+    desc: '你的午饭预算不多，但你绝不会因此将就一份难看又难吃的外卖。你会在有限的预算里找到最有品质感的选择——好看的摆盘、有格调的品牌、让人拍照发朋友圈的颜值。穷，但精致。',
+    phf: {
+      headline: '穷精致的午饭：品牌品质，外卖价格',
+      body: '拼好饭让你用平价外卖的钱，吃到品牌餐厅的品质。颜值在线，口味在线，发朋友圈也不丢人。',
+      proof: [
+        { label: '品牌颜值', value: '朋友圈级' },
+        { label: '人均', value: '¥15-25' },
+        { label: '品质感', value: '超出预算' }
+      ]
+    },
+    good: { emoji: '🤝', name: 'LUNCH-OCD', label: '饭执者', reason: '都追求品质，只是预算不同' },
+    bad: { emoji: '⚡', name: 'CTRL-F5', label: '刷新者', reason: '你要颜值，他要新鲜，目标不同' }
+  },
+  CTRL: {
+    badge: 'CTRL-F5',
+    emoji: '🔄',
+    name: '刷新者',
+    tagline: '今天吃过的，明天绝不重复',
+    traits: ['喜新厌旧', '探索欲强', '不安分', '美食冒险家'],
+    desc: '你对午饭有一个铁律：不重样。你会主动探索新餐厅，尝试没吃过的菜系，甚至会为了一家新开的店专门绕路。对你来说，午饭是一天中最好的冒险机会，重复意味着无聊。',
+    phf: {
+      headline: '刷新者的午饭：每天都有新惊喜',
+      body: '拼好饭持续引入新品牌、新菜品，你的"今天吃什么"永远有新答案。探索欲强的你，会在这里找到乐趣。',
+      proof: [
+        { label: '新品牌', value: '持续上新' },
+        { label: '菜系', value: '多元丰富' },
+        { label: '重复率', value: '极低' }
+      ]
+    },
+    good: { emoji: '🤝', name: 'MENU-死', label: '选死人', reason: '你帮他发现新大陆，他帮你做决定' },
+    bad: { emoji: '⚡', name: 'VET-er', label: '老油条', reason: '你要新鲜，他要稳定，永远谈不拢' }
+  },
+  IDGAF: {
+    badge: 'IDGAF-er',
+    emoji: '😌',
+    name: '无所谓人',
+    tagline: '吃什么都行，真的都行',
+    traits: ['随遇而安', '好相处', '不挑食', '省心省力'],
+    desc: '你是办公室里最好相处的午饭搭子。你从不挑剔，从不抱怨，从不在"吃什么"这个问题上浪费时间。你把决策权完全交给别人，然后愉快地享用任何端上来的食物。你的人生哲学是：饭是用来吃的，不是用来纠结的。',
+    phf: {
+      headline: '无所谓人的午饭：让系统帮你选',
+      body: '拼好饭的智能推荐会根据你的位置和时间，直接给你最优解。你只需要点一下"确认"，剩下的交给我们。',
+      proof: [
+        { label: '智能推荐', value: '一键下单' },
+        { label: '决策时间', value: '< 10秒' },
+        { label: '满意度', value: '持续优化' }
+      ]
+    },
+    good: { emoji: '🤝', name: 'LUNCH-OCD', label: '饭执者', reason: '饭执者做主，你负责配合，完美' },
+    bad: { emoji: '⚡', name: 'SOLO-eat', label: '独食者', reason: '独食者有主见，你没意见，反而尬' }
+  }
+};
+
+// ===== STATE =====
+let currentQ = 0;
+let selectedOption = null;
+let scores = { ROI: 0, MENU: 0, SOLO: 0, VET: 0, LUNCH: 0, BROKE: 0, CTRL: 0, IDGAF: 0 };
+let answers = [];
+
+// ===== FUNCTIONS =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function startTest() {
+  currentQ = 0;
+  selectedOption = null;
+  scores = { ROI: 0, MENU: 0, SOLO: 0, VET: 0, LUNCH: 0, BROKE: 0, CTRL: 0, IDGAF: 0 };
+  answers = [];
+  renderQuestion();
+  showScreen('screen-question');
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const total = questions.length;
+
+  // Progress
+  document.getElementById('progress-count').textContent = `${currentQ + 1} / ${total}`;
+  document.getElementById('progress-fill').style.width = `${((currentQ + 1) / total) * 100}%`;
+
+  // Scene
+  document.getElementById('q-scene').innerHTML = `
+    <span class="q-scene-icon">${q.scene.icon}</span>
+    <span class="q-scene-text">场景：${q.scene.text.replace('场景：','')}</span>
+  `;
+
+  // Question
+  document.getElementById('q-text').textContent = q.text;
+
+  // Options
+  const list = document.getElementById('options-list');
+  list.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `
+      <div class="option-letter">${opt.letter}</div>
+      <div class="option-text">${opt.text}</div>
+    `;
+    btn.onclick = () => selectOption(i, btn);
+    list.appendChild(btn);
+  });
+
+  // Reset next button
+  selectedOption = null;
+  const nextBtn = document.getElementById('btn-next');
+  nextBtn.classList.remove('enabled');
+  nextBtn.textContent = currentQ === total - 1 ? '查看结果 🎉' : '下一题';
+}
+
+function selectOption(index, btn) {
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedOption = index;
+  document.getElementById('btn-next').classList.add('enabled');
+}
+
+function nextQuestion() {
+  if (selectedOption === null) return;
+
+  // Record scores
+  const q = questions[currentQ];
+  const scoreKeys = Object.keys(scores);
+  scoreKeys.forEach(key => {
+    scores[key] += q.scores[key][selectedOption];
+  });
+  answers.push(selectedOption);
+
+  if (currentQ < questions.length - 1) {
+    currentQ++;
+    selectedOption = null;
+    renderQuestion();
+  } else {
+    // Show loading then result
+    showScreen('screen-loading');
+    setTimeout(() => {
+      showResult();
+    }, 2200);
+  }
+}
+
+function showResult() {
+  // Find top personality
+  const topType = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+  const p = personalities[topType];
+
+  // Update hero
+  document.getElementById('result-type-badge').textContent = p.badge;
+  document.getElementById('result-emoji').textContent = p.emoji;
+  document.getElementById('result-name').textContent = p.name;
+  document.getElementById('result-tagline').textContent = p.tagline;
+
+  // Traits
+  const traitList = document.getElementById('trait-list');
+  traitList.innerHTML = p.traits.map(t => `<span class="trait-tag">${t}</span>`).join('');
+
+  // Description
+  document.getElementById('desc-text').textContent = p.desc;
+
+  // PHF card
+  document.getElementById('phf-headline').textContent = p.phf.headline;
+  document.getElementById('phf-body').textContent = p.phf.body;
+  const proofEl = document.getElementById('phf-proof');
+  proofEl.innerHTML = p.phf.proof.map(item =>
+    `<div class="proof-item">${item.label} <span>${item.value}</span></div>`
+  ).join('');
+
+  // Match
+  const matchEl = document.getElementById('match-types');
+  matchEl.innerHTML = `
+    <div class="match-item good">
+      <span class="match-emoji">${p.good.emoji}</span>
+      <div class="match-name">${p.good.name}</div>
+      <div class="match-label">${p.good.label}</div>
+      <div style="font-size:11px;color:#666;margin-top:4px;line-height:1.3">${p.good.reason}</div>
+    </div>
+    <div class="match-item bad">
+      <span class="match-emoji">${p.bad.emoji}</span>
+      <div class="match-name">${p.bad.name}</div>
+      <div class="match-label">${p.bad.label}</div>
+      <div style="font-size:11px;color:#666;margin-top:4px;line-height:1.3">${p.bad.reason}</div>
+    </div>
+  `;
+
+  // Share preview
+  document.getElementById('sp-emoji').textContent = p.emoji;
+  document.getElementById('sp-type').textContent = p.badge;
+  document.getElementById('sp-name').textContent = p.name;
+  document.getElementById('sp-quote').textContent = `"${p.tagline}"`;
+
+  showScreen('screen-result');
+}
+
+function retryTest() {
+  startTest();
+}
+
+function openShareSheet() {
+  document.getElementById('share-overlay').classList.add('active');
+}
+
+function closeShareSheet(e) {
+  if (!e || e.target === document.getElementById('share-overlay')) {
+    document.getElementById('share-overlay').classList.remove('active');
+  }
+}
+
+function copyLink() {
+  const text = '我在拼好饭测出了我的饭搭子人格，快来测测你是哪种打工人饭搭子！';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast('✅ 链接已复制'));
+  } else {
+    showToast('✅ 链接已复制');
+  }
+  document.getElementById('share-overlay').classList.remove('active');
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
