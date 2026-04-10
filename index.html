@@ -394,115 +394,148 @@
     padding-bottom: 40px;
   }
 
+  /* ── 压缩后的 hero：左文字 + 右吉祥物 ── */
   .result-hero {
     background: linear-gradient(160deg, #FF6B35 0%, #FF4500 100%);
-    padding: 52px 28px 40px;
-    text-align: center;
+    padding: 44px 20px 16px;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+    min-height: 0;
   }
 
   .result-hero::before {
     content: '';
     position: absolute;
-    top: -60px; right: -60px;
-    width: 200px; height: 200px;
+    top: -50px; right: -50px;
+    width: 160px; height: 160px;
     background: rgba(255,255,255,0.08);
     border-radius: 50%;
   }
 
-  .result-type-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.2);
-    color: white;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 5px 14px;
-    border-radius: 20px;
-    margin-bottom: 16px;
-    letter-spacing: 2px;
+  /* 左侧文字区 */
+  .hero-left {
+    flex: 1;
+    z-index: 2;
+    padding-right: 8px;
   }
 
-  .result-emoji {
-    font-size: 80px;
-    display: block;
-    margin-bottom: 16px;
+  .result-type-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.22);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+    letter-spacing: 1.5px;
   }
 
   .result-name {
     color: white;
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 800;
-    margin-bottom: 8px;
+    margin-bottom: 3px;
     letter-spacing: -0.5px;
+    line-height: 1.2;
   }
 
   .result-tagline {
-    color: rgba(255,255,255,0.9);
-    font-size: 15px;
-    line-height: 1.6;
+    color: rgba(255,255,255,0.88);
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 8px;
   }
 
-  .result-body {
-    padding: 24px 20px 0;
-  }
-
-  .result-card {
-    background: white;
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 14px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-  }
-
-  .card-title {
-    font-size: 13px;
-    color: var(--gray);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-  }
-
-  .trait-list {
+  /* 特质标签 —— 在 hero 内 */
+  .hero-traits {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-wrap: nowrap;
+    gap: 4px;
+    margin-bottom: 8px;
+    overflow: hidden;
   }
 
-  .trait-tag {
-    background: var(--orange-pale);
-    color: var(--orange);
-    font-size: 13px;
+  .hero-trait-tag {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 10px;
     font-weight: 600;
-    padding: 6px 12px;
+    padding: 3px 7px;
     border-radius: 20px;
+    backdrop-filter: blur(4px);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
-  .desc-text {
-    font-size: 15px;
-    color: var(--dark);
-    line-height: 1.7;
+  /* 深度解析 —— 在 hero 内，字号小 */
+  .hero-desc {
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  /* 拼好饭种草卡片 */
+  /* 右侧吉祥物 */
+  .hero-mascot {
+    width: 110px;
+    flex-shrink: 0;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    margin-bottom: -4px;
+  }
+
+  .hero-mascot img {
+    width: 110px;
+    height: auto;
+    mix-blend-mode: multiply;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+    animation: mascotFloat 3s ease-in-out infinite;
+  }
+
+  @keyframes mascotFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+  }
+
+  /* ── result-body ── */
+  .result-body {
+    padding: 14px 16px 0;
+  }
+
+  /* 拼好饭种草卡 */
   .phf-card {
     background: linear-gradient(135deg, #FFF0EB 0%, #FFE4D6 100%);
     border: 1.5px solid rgba(255,107,53,0.2);
     border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
     position: relative;
     overflow: hidden;
   }
 
-  .phf-card::before {
-    content: '🍱';
+  /* 右下角小吉祥物装饰 */
+  .phf-mascot-deco {
     position: absolute;
-    right: 16px;
-    top: 16px;
-    font-size: 32px;
-    opacity: 0.3;
+    right: -8px;
+    bottom: -8px;
+    width: 72px;
+    opacity: 0.5;
+    pointer-events: none;
+    transform: rotate(-10deg);
+  }
+  .phf-mascot-deco img {
+    width: 100%;
+    mix-blend-mode: multiply;
   }
 
   .phf-label {
@@ -510,37 +543,40 @@
     color: var(--orange);
     font-weight: 700;
     letter-spacing: 1px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     text-transform: uppercase;
   }
 
   .phf-headline {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 800;
     color: var(--dark);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     line-height: 1.4;
+    padding-right: 0;
   }
 
   .phf-body {
-    font-size: 14px;
+    font-size: 13px;
     color: #555;
     line-height: 1.6;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+    padding-right: 0;
   }
 
   .phf-proof {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+    padding-right: 0;
   }
 
   .proof-item {
     background: white;
     border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 13px;
+    padding: 6px 10px;
+    font-size: 12px;
     color: var(--dark);
     font-weight: 600;
     box-shadow: 0 1px 4px rgba(0,0,0,0.06);
@@ -556,8 +592,8 @@
     color: white;
     border: none;
     border-radius: 50px;
-    padding: 14px;
-    font-size: 15px;
+    padding: 13px;
+    font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
@@ -570,21 +606,30 @@
   .match-card {
     background: white;
     border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+
+  .card-title {
+    font-size: 12px;
+    color: var(--gray);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
   }
 
   .match-types {
     display: flex;
     gap: 10px;
-    margin-top: 12px;
+    margin-top: 10px;
   }
 
   .match-item {
     flex: 1;
     text-align: center;
-    padding: 14px 8px;
+    padding: 12px 8px;
     border-radius: 12px;
     background: var(--gray-light);
   }
@@ -592,34 +637,34 @@
   .match-item.good { background: #E8F5E9; }
   .match-item.bad { background: #FFF3E0; }
 
-  .match-emoji { font-size: 28px; display: block; margin-bottom: 6px; }
+  .match-emoji { font-size: 26px; display: block; margin-bottom: 5px; }
   .match-name { font-size: 12px; font-weight: 700; color: var(--dark); }
   .match-label { font-size: 11px; color: var(--gray); margin-top: 2px; }
 
   /* 分享区 */
   .share-section {
-    padding: 0 20px;
+    padding: 0 16px;
   }
 
   .share-card {
     background: white;
     border-radius: var(--radius);
-    padding: 20px;
+    padding: 16px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .share-title {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--dark);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .share-sub {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--gray);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     line-height: 1.5;
   }
 
@@ -634,8 +679,8 @@
     color: white;
     border: none;
     border-radius: 50px;
-    padding: 13px;
-    font-size: 14px;
+    padding: 12px;
+    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
@@ -647,25 +692,24 @@
     color: var(--dark);
     border: none;
     border-radius: 50px;
-    padding: 13px;
-    font-size: 14px;
+    padding: 12px;
+    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
   }
 
   .btn-retry {
-    width: 100%;
     background: transparent;
     color: var(--gray);
     border: 1.5px solid #DDD;
     border-radius: 50px;
-    padding: 13px;
-    font-size: 14px;
+    padding: 12px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    margin: 0 20px;
-    width: calc(100% - 40px);
+    margin: 0 16px;
+    width: calc(100% - 32px);
     display: block;
   }
 
@@ -746,7 +790,6 @@
     color: var(--dark);
   }
 
-  /* 分享卡片预览 */
   .share-preview {
     background: linear-gradient(135deg, #FF6B35, #FF4500);
     border-radius: 16px;
@@ -866,35 +909,37 @@
 
   <!-- SCREEN 4: RESULT -->
   <div id="screen-result" class="screen">
+
+    <!-- ① 压缩 hero：左文字（badge+名+tagline+特质+描述）右吉祥物 -->
     <div class="result-hero">
-      <div class="result-type-badge" id="result-type-badge">ROI-er</div>
-      <span class="result-emoji" id="result-emoji">🧮</span>
-      <div class="result-name" id="result-name">算账人</div>
-      <div class="result-tagline" id="result-tagline">每一分钱都要花在刀刃上</div>
+      <div class="hero-left">
+        <div class="result-type-badge" id="result-type-badge">ROI-er</div>
+        <div class="result-name" id="result-name">算账人</div>
+        <div class="result-tagline" id="result-tagline">每一分钱都要花在刀刃上</div>
+        <div class="hero-traits" id="hero-traits"></div>
+        <div class="hero-desc" id="hero-desc"></div>
+      </div>
+      <div class="hero-mascot">
+        <img id="mascot-img" src="assets/pinpin.png" alt="拼拼">
+      </div>
     </div>
 
+    <!-- ② result-body：拼好饭种草卡（第一屏80%可见）+ 饭搭子匹配 -->
     <div class="result-body">
-      <!-- 人格特质 -->
-      <div class="result-card">
-        <div class="card-title">你的饭搭子特质</div>
-        <div class="trait-list" id="trait-list"></div>
-      </div>
-
-      <!-- 人格描述 -->
-      <div class="result-card">
-        <div class="card-title">深度解析</div>
-        <div class="desc-text" id="desc-text"></div>
-      </div>
 
       <!-- 拼好饭种草卡 -->
       <div class="phf-card">
-        <div class="phf-label">✦ 为你推荐</div>
+        <div class="phf-label" id="phf-label">✦ 为你推荐</div>
         <div class="phf-headline" id="phf-headline">算账人的午饭公式</div>
         <div class="phf-body" id="phf-body">拼好饭帮你把午饭成本压到最低，还不用将就难吃的外卖。</div>
         <div class="phf-proof" id="phf-proof"></div>
         <button class="btn-phf" onclick="showToast('🎉 已为你领取专属优惠券！')">
           领取首单专属优惠 →
         </button>
+        <!-- 右下角装饰吉祥物 -->
+        <div class="phf-mascot-deco">
+          <img id="phf-mascot-deco-img" src="assets/fanfan.png" alt="饭饭">
+        </div>
       </div>
 
       <!-- 好友匹配 -->
@@ -952,7 +997,6 @@
 // ===== DATA =====
 const questions = [
   {
-    // Q1: 区分 ROI/BROKE vs IDGAF/VET vs LUNCH vs MENU
     scene: { icon: '⏰', text: '场景：快到饭点了' },
     text: '快到饭点了，你的第一反应是？',
     options: [
@@ -961,11 +1005,9 @@ const questions = [
       { letter: 'C', text: '问同事"你们去哪吃，我跟着"' },
       { letter: 'D', text: '还没想，到时候再说吧' }
     ],
-    // A→ROI/BROKE  B→LUNCH/VET  C→IDGAF  D→MENU/CTRL
     scores: { ROI: [3,0,0,0], MENU: [0,0,0,3], SOLO: [0,1,0,0], VET: [0,2,0,0], LUNCH: [0,3,0,0], BROKE: [3,0,0,0], CTRL: [0,0,0,2], IDGAF: [0,0,3,1] }
   },
   {
-    // Q2: 区分 BROKE vs ROI vs MENU vs IDGAF
     scene: { icon: '💰', text: '场景：看到外卖价格' },
     text: '点外卖时看到一份饭要38元，你会？',
     options: [
@@ -974,11 +1016,9 @@ const questions = [
       { letter: 'C', text: '算算性价比，评分高量大就值得点' },
       { letter: 'D', text: '无所谓，好吃就行，不在乎价格' }
     ],
-    // A→BROKE  B→MENU  C→ROI/VET  D→IDGAF/CTRL
     scores: { ROI: [0,0,3,0], MENU: [0,3,0,0], SOLO: [0,0,1,0], VET: [0,0,2,0], LUNCH: [0,0,1,0], BROKE: [3,0,0,0], CTRL: [0,0,0,2], IDGAF: [0,0,0,3] }
   },
   {
-    // Q3: 区分 SOLO vs IDGAF vs ROI vs LUNCH
     scene: { icon: '👥', text: '场景：同事约你一起订外卖' },
     text: '同事说"一起拼单吧，能凑满减"，你的反应？',
     options: [
@@ -987,11 +1027,9 @@ const questions = [
       { letter: 'C', text: '要看他们点什么，我有自己想吃的' },
       { letter: 'D', text: '随你们，我没意见，你们定就行' }
     ],
-    // A→ROI/BROKE  B→SOLO  C→MENU/LUNCH  D→IDGAF
     scores: { ROI: [3,0,0,0], MENU: [0,0,2,0], SOLO: [0,3,0,0], VET: [1,0,1,0], LUNCH: [0,0,2,0], BROKE: [2,0,0,0], CTRL: [0,1,0,0], IDGAF: [0,0,0,3] }
   },
   {
-    // Q4: 区分 MENU vs VET vs CTRL vs LUNCH
     scene: { icon: '🤔', text: '场景：选餐纠结时刻' },
     text: '面对外卖菜单，你通常是哪种状态？',
     options: [
@@ -1000,11 +1038,9 @@ const questions = [
       { letter: 'C', text: '专门找没吃过的新店新菜，越新越好' },
       { letter: 'D', text: '直接看价格排序，从低到高选' }
     ],
-    // A→MENU  B→VET/LUNCH  C→CTRL  D→ROI/BROKE
     scores: { ROI: [0,0,0,3], MENU: [3,0,0,0], SOLO: [0,1,0,0], VET: [0,3,0,0], LUNCH: [0,2,0,0], BROKE: [0,0,0,2], CTRL: [0,0,3,0], IDGAF: [1,0,0,0] }
   },
   {
-    // Q5: 区分 ROI vs BROKE vs VET vs IDGAF vs SOLO
     scene: { icon: '😤', text: '场景：外卖踩雷了' },
     text: '点的外卖难吃，你会怎么做？',
     options: [
@@ -1013,11 +1049,9 @@ const questions = [
       { letter: 'C', text: '默默吃完，拉黑这家，下次绝不再点' },
       { letter: 'D', text: '无所谓，凑合吃吧，也没那么难吃' }
     ],
-    // A→ROI  B→VET  C→SOLO/LUNCH/BROKE  D→IDGAF
     scores: { ROI: [3,0,0,0], MENU: [0,1,0,0], SOLO: [0,0,2,0], VET: [0,3,0,0], LUNCH: [0,0,2,0], BROKE: [0,0,3,0], CTRL: [0,0,1,0], IDGAF: [0,0,0,3] }
   },
   {
-    // Q6: 区分 LUNCH vs CTRL vs IDGAF vs BROKE
     scene: { icon: '🏃', text: '场景：午休时间有限' },
     text: '只有30分钟午休，你会怎么处理午饭？',
     options: [
@@ -1026,11 +1060,9 @@ const questions = [
       { letter: 'C', text: '趁机试试附近新开的那家，说不定有惊喜' },
       { letter: 'D', text: '找个便宜又快的，省钱省时间两不误' }
     ],
-    // A→LUNCH/VET  B→IDGAF/MENU  C→CTRL  D→ROI/BROKE
     scores: { ROI: [0,0,0,3], MENU: [0,2,0,0], SOLO: [1,0,0,0], VET: [2,0,0,0], LUNCH: [3,0,0,0], BROKE: [0,0,0,2], CTRL: [0,0,3,0], IDGAF: [0,3,0,0] }
   },
   {
-    // Q7: 区分 BROKE vs SOLO vs VET vs CTRL
     scene: { icon: '💬', text: '场景：同事问你推荐' },
     text: '同事问"你知道附近哪里好吃吗"，你会？',
     options: [
@@ -1039,11 +1071,9 @@ const questions = [
       { letter: 'C', text: '给他看我最近发现的新店，强烈安利' },
       { letter: 'D', text: '不太清楚，我一般自己点，不太关注别家' }
     ],
-    // A→ROI/BROKE  B→VET  C→CTRL  D→SOLO
     scores: { ROI: [2,0,0,0], MENU: [0,0,0,1], SOLO: [0,0,0,3], VET: [0,3,0,0], LUNCH: [0,1,0,0], BROKE: [3,0,0,0], CTRL: [0,0,3,0], IDGAF: [1,0,0,0] }
   },
   {
-    // Q8: 区分所有8种，最终定性题
     scene: { icon: '🌟', text: '场景：理想的午饭' },
     text: '你心目中完美的工作日午饭是？',
     options: [
@@ -1052,160 +1082,119 @@ const questions = [
       { letter: 'C', text: '安静地吃自己喜欢的，不被打扰，独享时光' },
       { letter: 'D', text: '和同事一起热闹吃，吃什么不重要，氛围好' }
     ],
-    // A→ROI/BROKE  B→CTRL/MENU  C→SOLO/LUNCH  D→IDGAF/VET
     scores: { ROI: [3,0,0,0], MENU: [0,2,0,0], SOLO: [0,0,3,0], VET: [0,0,0,2], LUNCH: [0,0,2,0], BROKE: [2,0,0,0], CTRL: [0,3,0,0], IDGAF: [0,0,0,3] }
   }
 ];
 
 const personalities = {
   ROI: {
-    badge: 'ROI-er',
-    emoji: '🧮',
-    name: '算账人',
+    badge: 'ROI-er', emoji: '🧮', name: '算账人',
     tagline: '每一分钱都要花在刀刃上',
     traits: ['性价比猎手', '满减达人', '精打细算', '不将就'],
-    desc: '你对午饭的态度极其理性——不是不舍得花钱，而是每一分钱都要花得值。你会货比三家，会等满减，会算配送费，但你绝不会为了省钱而将就难吃的东西。你的目标是：花最少的钱，吃最好的饭。',
+    desc: '你对午饭的态度极其理性——不是不舍得花钱，而是每一分钱都要花得值。你会货比三家，会等满减，会算配送费，但你绝不会为了省钱而将就难吃的东西。',
+    mascot: 'pinpin', // 黄色拼拼
     phf: {
       headline: '算账人的午饭公式：好吃 ÷ 价格 = 最大值',
-      body: '拼好饭专为你这种人设计——多人拼单摊薄配送费，品牌餐厅的品质，外卖价格的7折。你的ROI计算器会爱上它。',
-      proof: [
-        { label: '人均', value: '¥15起' },
-        { label: '品牌餐厅', value: '品质保障' },
-        { label: '拼单省', value: '最高40%' }
-      ]
+      body: '拼好饭专为你这种人设计——多人拼单摊薄配送费，品牌餐厅的品质，外卖价格的7折。',
+      proof: [{ label: '人均', value: '¥15起' }, { label: '品牌品质', value: '有保障' }, { label: '拼单省', value: '最高40%' }]
     },
     good: { emoji: '🤝', name: 'IDGAF-er', label: '无所谓人', reason: '你来决策，他来配合' },
     bad: { emoji: '⚡', name: 'MENU-死', label: '选死人', reason: '一个要省钱一个要选遍' }
   },
   MENU: {
-    badge: 'MENU-死',
-    emoji: '🌀',
-    name: '选死人',
+    badge: 'MENU-死', emoji: '🌀', name: '选死人',
     tagline: '选择困难是一种病，我病得不轻',
     traits: ['选择困难', '美食探索家', '纠结星人', '好奇心强'],
-    desc: '你不是不知道自己想吃什么，你只是想把所有好吃的都吃一遍。每次打开外卖App都是一场冒险，你会在A和B之间反复横跳，最终在饭点前5分钟做出决定，然后立刻后悔没选另一个。',
+    desc: '你不是不知道自己想吃什么，你只是想把所有好吃的都吃一遍。每次打开外卖App都是一场冒险，最终在饭点前5分钟做出决定，然后立刻后悔没选另一个。',
+    mascot: 'fanfan', // 粉色饭饭
     phf: {
       headline: '选死人的救星：每天换着吃，不重样',
-      body: '拼好饭每天上新，多家品牌餐厅轮换，帮你把"今天吃什么"变成一件有趣的事而不是折磨。',
-      proof: [
-        { label: '每日上新', value: '多品类' },
-        { label: '品牌数', value: '100+' },
-        { label: '决策时间', value: '< 1分钟' }
-      ]
+      body: '拼好饭每天上新，多家品牌餐厅轮换，帮你把"今天吃什么"变成一件有趣的事。',
+      proof: [{ label: '每日上新', value: '多品类' }, { label: '品牌数', value: '100+' }, { label: '决策时间', value: '< 1分钟' }]
     },
     good: { emoji: '🤝', name: 'VET-er', label: '老油条', reason: '老油条帮你快速拍板' },
     bad: { emoji: '⚡', name: 'LUNCH-OCD', label: '饭执者', reason: '两个都有主见，必然冲突' }
   },
   SOLO: {
-    badge: 'SOLO-eat',
-    emoji: '🎧',
-    name: '独食者',
+    badge: 'SOLO-eat', emoji: '🎧', name: '独食者',
     tagline: '一个人吃饭，是一种享受',
     traits: ['独立自主', '不将就', '高效率', '有品位'],
-    desc: '你不是不合群，你只是不想在吃饭这件事上将就别人。一个人吃饭，可以点自己最想吃的，可以吃得快或慢，可以边吃边刷手机。你把午饭时间当作一天中难得的独处时光。',
+    desc: '你不是不合群，你只是不想在吃饭这件事上将就别人。一个人吃饭，可以点自己最想吃的，可以吃得快或慢，把午饭时间当作一天中难得的独处时光。',
+    mascot: 'pinpin',
     phf: {
       headline: '独食者的专属方案：一个人也能拼',
-      body: '拼好饭支持单人下单，系统自动帮你匹配附近的拼单伙伴，你不需要认识任何人，就能享受拼单价格。',
-      proof: [
-        { label: '单人可拼', value: '无需组队' },
-        { label: '自动匹配', value: '附近拼友' },
-        { label: '独享', value: '品牌品质' }
-      ]
+      body: '拼好饭支持单人下单，系统自动帮你匹配附近的拼单伙伴，不需要认识任何人，就能享受拼单价格。',
+      proof: [{ label: '单人可拼', value: '无需组队' }, { label: '自动匹配', value: '附近拼友' }, { label: '独享', value: '品牌品质' }]
     },
     good: { emoji: '🤝', name: 'ROI-er', label: '算账人', reason: '都不废话，高效完成午饭' },
     bad: { emoji: '⚡', name: 'IDGAF-er', label: '无所谓人', reason: '你有主见，他没意见，反而尬' }
   },
   VET: {
-    badge: 'VET-er',
-    emoji: '🧓',
-    name: '老油条',
+    badge: 'VET-er', emoji: '🧓', name: '老油条',
     tagline: '我见过的外卖踩雷比你吃过的饭还多',
     traits: ['经验丰富', '避雷专家', '效率优先', '务实主义'],
-    desc: '你是办公室里的外卖活地图。哪家好吃、哪家踩雷、哪家配送慢，你都门儿清。你不追新，不跟风，只相信自己踩过坑之后总结出来的经验。你的午饭选择永远稳定，因为你早就把所有坑都踩过了。',
+    desc: '你是办公室里的外卖活地图。哪家好吃、哪家踩雷、哪家配送慢，你都门儿清。你不追新，不跟风，只相信自己踩过坑之后总结出来的经验。',
+    mascot: 'fanfan',
     phf: {
       headline: '老油条的信任来自品牌背书',
-      body: '拼好饭只引入经过严选的品牌餐厅，不是随便一家小店。你的经验告诉你：品牌餐厅出品稳定，不踩雷。',
-      proof: [
-        { label: '品牌严选', value: '质量稳定' },
-        { label: '踩雷率', value: '极低' },
-        { label: '老用户', value: '回购率高' }
-      ]
+      body: '拼好饭只引入经过严选的品牌餐厅，不是随便一家小店。品牌餐厅出品稳定，不踩雷。',
+      proof: [{ label: '品牌严选', value: '质量稳定' }, { label: '踩雷率', value: '极低' }, { label: '老用户', value: '回购率高' }]
     },
     good: { emoji: '🤝', name: 'MENU-死', label: '选死人', reason: '你帮他做决定，他感激涕零' },
     bad: { emoji: '⚡', name: 'CTRL-F5', label: '刷新者', reason: '你嫌他太随意，他嫌你太保守' }
   },
   LUNCH: {
-    badge: 'LUNCH-OCD',
-    emoji: '📋',
-    name: '饭执者',
+    badge: 'LUNCH-OCD', emoji: '📋', name: '饭执者',
     tagline: '午饭是一件严肃的事',
     traits: ['计划达人', '仪式感强', '高标准', '不妥协'],
-    desc: '你对午饭有自己的一套标准和仪式感。你可能昨晚就想好了今天吃什么，你会提前研究菜单，你对食物的品质有要求。在你看来，午饭不只是填饱肚子，它是一天中值得认真对待的事。',
+    desc: '你对午饭有自己的一套标准和仪式感。你可能昨晚就想好了今天吃什么，你会提前研究菜单，你对食物的品质有要求。午饭不只是填饱肚子，它是一天中值得认真对待的事。',
+    mascot: 'pinpin',
     phf: {
       headline: '饭执者的午饭，值得认真对待',
       body: '拼好饭的品牌餐厅出品稳定，食材有保障。你的高标准，在这里能得到满足，而且价格比你想象的更合理。',
-      proof: [
-        { label: '食材', value: '品牌保障' },
-        { label: '出品', value: '标准化稳定' },
-        { label: '性价比', value: '超出预期' }
-      ]
+      proof: [{ label: '食材', value: '品牌保障' }, { label: '出品', value: '标准化稳定' }, { label: '性价比', value: '超出预期' }]
     },
     good: { emoji: '🤝', name: 'ROI-er', label: '算账人', reason: '一个管品质，一个管价格，完美搭档' },
     bad: { emoji: '⚡', name: 'IDGAF-er', label: '无所谓人', reason: '你认真，他随意，三观不合' }
   },
   BROKE: {
-    badge: 'BROKE-chic',
-    emoji: '💅',
-    name: '穷精致',
+    badge: 'BROKE-chic', emoji: '💅', name: '穷精致',
     tagline: '预算有限，但品位不能将就',
     traits: ['精致穷', '颜值控', '性价比美学', '生活品质感'],
-    desc: '你的午饭预算不多，但你绝不会因此将就一份难看又难吃的外卖。你会在有限的预算里找到最有品质感的选择——好看的摆盘、有格调的品牌、让人拍照发朋友圈的颜值。穷，但精致。',
+    desc: '你的午饭预算不多，但你绝不会因此将就一份难看又难吃的外卖。你会在有限的预算里找到最有品质感的选择——好看的摆盘、有格调的品牌、让人拍照发朋友圈的颜值。',
+    mascot: 'fanfan',
     phf: {
       headline: '穷精致的午饭：品牌品质，外卖价格',
       body: '拼好饭让你用平价外卖的钱，吃到品牌餐厅的品质。颜值在线，口味在线，发朋友圈也不丢人。',
-      proof: [
-        { label: '品牌颜值', value: '朋友圈级' },
-        { label: '人均', value: '¥15-25' },
-        { label: '品质感', value: '超出预算' }
-      ]
+      proof: [{ label: '品牌颜值', value: '朋友圈级' }, { label: '人均', value: '¥15-25' }, { label: '品质感', value: '超出预算' }]
     },
     good: { emoji: '🤝', name: 'LUNCH-OCD', label: '饭执者', reason: '都追求品质，只是预算不同' },
     bad: { emoji: '⚡', name: 'CTRL-F5', label: '刷新者', reason: '你要颜值，他要新鲜，目标不同' }
   },
   CTRL: {
-    badge: 'CTRL-F5',
-    emoji: '🔄',
-    name: '刷新者',
+    badge: 'CTRL-F5', emoji: '🔄', name: '刷新者',
     tagline: '今天吃过的，明天绝不重复',
     traits: ['喜新厌旧', '探索欲强', '不安分', '美食冒险家'],
-    desc: '你对午饭有一个铁律：不重样。你会主动探索新餐厅，尝试没吃过的菜系，甚至会为了一家新开的店专门绕路。对你来说，午饭是一天中最好的冒险机会，重复意味着无聊。',
+    desc: '你对午饭有一个铁律：不重样。你会主动探索新餐厅，尝试没吃过的菜系，甚至会为了一家新开的店专门绕路。对你来说，午饭是一天中最好的冒险机会。',
+    mascot: 'pinpin',
     phf: {
       headline: '刷新者的午饭：每天都有新惊喜',
       body: '拼好饭持续引入新品牌、新菜品，你的"今天吃什么"永远有新答案。探索欲强的你，会在这里找到乐趣。',
-      proof: [
-        { label: '新品牌', value: '持续上新' },
-        { label: '菜系', value: '多元丰富' },
-        { label: '重复率', value: '极低' }
-      ]
+      proof: [{ label: '新品牌', value: '持续上新' }, { label: '菜系', value: '多元丰富' }, { label: '重复率', value: '极低' }]
     },
     good: { emoji: '🤝', name: 'MENU-死', label: '选死人', reason: '你帮他发现新大陆，他帮你做决定' },
     bad: { emoji: '⚡', name: 'VET-er', label: '老油条', reason: '你要新鲜，他要稳定，永远谈不拢' }
   },
   IDGAF: {
-    badge: 'IDGAF-er',
-    emoji: '😌',
-    name: '无所谓人',
+    badge: 'IDGAF-er', emoji: '😌', name: '无所谓人',
     tagline: '吃什么都行，真的都行',
     traits: ['随遇而安', '好相处', '不挑食', '省心省力'],
-    desc: '你是办公室里最好相处的午饭搭子。你从不挑剔，从不抱怨，从不在"吃什么"这个问题上浪费时间。你把决策权完全交给别人，然后愉快地享用任何端上来的食物。你的人生哲学是：饭是用来吃的，不是用来纠结的。',
+    desc: '你是办公室里最好相处的午饭搭子。你从不挑剔，从不抱怨，从不在"吃什么"这个问题上浪费时间。你的人生哲学是：饭是用来吃的，不是用来纠结的。',
+    mascot: 'fanfan',
     phf: {
       headline: '无所谓人的午饭：让系统帮你选',
       body: '拼好饭的智能推荐会根据你的位置和时间，直接给你最优解。你只需要点一下"确认"，剩下的交给我们。',
-      proof: [
-        { label: '智能推荐', value: '一键下单' },
-        { label: '决策时间', value: '< 10秒' },
-        { label: '满意度', value: '持续优化' }
-      ]
+      proof: [{ label: '智能推荐', value: '一键下单' }, { label: '决策时间', value: '< 10秒' }, { label: '满意度', value: '持续优化' }]
     },
     good: { emoji: '🤝', name: 'LUNCH-OCD', label: '饭执者', reason: '饭执者做主，你负责配合，完美' },
     bad: { emoji: '⚡', name: 'SOLO-eat', label: '独食者', reason: '独食者有主见，你没意见，反而尬' }
@@ -1237,35 +1226,22 @@ function startTest() {
 function renderQuestion() {
   const q = questions[currentQ];
   const total = questions.length;
-
-  // Progress
   document.getElementById('progress-count').textContent = `${currentQ + 1} / ${total}`;
   document.getElementById('progress-fill').style.width = `${((currentQ + 1) / total) * 100}%`;
-
-  // Scene
   document.getElementById('q-scene').innerHTML = `
     <span class="q-scene-icon">${q.scene.icon}</span>
     <span class="q-scene-text">场景：${q.scene.text.replace('场景：','')}</span>
   `;
-
-  // Question
   document.getElementById('q-text').textContent = q.text;
-
-  // Options
   const list = document.getElementById('options-list');
   list.innerHTML = '';
   q.options.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'option-btn';
-    btn.innerHTML = `
-      <div class="option-letter">${opt.letter}</div>
-      <div class="option-text">${opt.text}</div>
-    `;
+    btn.innerHTML = `<div class="option-letter">${opt.letter}</div><div class="option-text">${opt.text}</div>`;
     btn.onclick = () => selectOption(i, btn);
     list.appendChild(btn);
   });
-
-  // Reset next button
   selectedOption = null;
   const nextBtn = document.getElementById('btn-next');
   nextBtn.classList.remove('enabled');
@@ -1281,57 +1257,52 @@ function selectOption(index, btn) {
 
 function nextQuestion() {
   if (selectedOption === null) return;
-
-  // Record scores
   const q = questions[currentQ];
-  const scoreKeys = Object.keys(scores);
-  scoreKeys.forEach(key => {
-    scores[key] += q.scores[key][selectedOption];
-  });
+  Object.keys(scores).forEach(key => { scores[key] += q.scores[key][selectedOption]; });
   answers.push(selectedOption);
-
   if (currentQ < questions.length - 1) {
     currentQ++;
     selectedOption = null;
     renderQuestion();
   } else {
-    // Show loading then result
     showScreen('screen-loading');
-    setTimeout(() => {
-      showResult();
-    }, 2200);
+    setTimeout(() => { showResult(); }, 2200);
   }
 }
 
 function showResult() {
-  // Find top personality
   const topType = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
   const p = personalities[topType];
 
-  // Update hero
+  // hero
   document.getElementById('result-type-badge').textContent = p.badge;
-  document.getElementById('result-emoji').textContent = p.emoji;
   document.getElementById('result-name').textContent = p.name;
   document.getElementById('result-tagline').textContent = p.tagline;
 
-  // Traits
-  const traitList = document.getElementById('trait-list');
-  traitList.innerHTML = p.traits.map(t => `<span class="trait-tag">${t}</span>`).join('');
+  // 特质标签（在 hero 内）
+  document.getElementById('hero-traits').innerHTML =
+    p.traits.map(t => `<span class="hero-trait-tag">${t}</span>`).join('');
 
-  // Description
-  document.getElementById('desc-text').textContent = p.desc;
+  // 深度解析（在 hero 内）
+  document.getElementById('hero-desc').textContent = p.desc;
+
+  // 吉祥物：pinpin=黄色，fanfan=粉色
+  // hero 主图：用对应人格的吉祥物正面图
+  const mascotMain = p.mascot === 'pinpin' ? 'assets/pinpin.png' : 'assets/fanfan.png';
+  // phf 装饰：用另一个
+  const mascotDeco = p.mascot === 'pinpin' ? 'assets/fanfan.png' : 'assets/pinpin.png';
+  document.getElementById('mascot-img').src = mascotMain;
+  document.getElementById('phf-mascot-deco-img').src = mascotDeco;
 
   // PHF card
   document.getElementById('phf-headline').textContent = p.phf.headline;
   document.getElementById('phf-body').textContent = p.phf.body;
-  const proofEl = document.getElementById('phf-proof');
-  proofEl.innerHTML = p.phf.proof.map(item =>
+  document.getElementById('phf-proof').innerHTML = p.phf.proof.map(item =>
     `<div class="proof-item">${item.label} <span>${item.value}</span></div>`
   ).join('');
 
   // Match
-  const matchEl = document.getElementById('match-types');
-  matchEl.innerHTML = `
+  document.getElementById('match-types').innerHTML = `
     <div class="match-item good">
       <span class="match-emoji">${p.good.emoji}</span>
       <div class="match-name">${p.good.name}</div>
@@ -1353,11 +1324,11 @@ function showResult() {
   document.getElementById('sp-quote').textContent = `"${p.tagline}"`;
 
   showScreen('screen-result');
+  // 确保结果页从顶部开始
+  requestAnimationFrame(() => { window.scrollTo(0, 0); });
 }
 
-function retryTest() {
-  startTest();
-}
+function retryTest() { startTest(); }
 
 function openShareSheet() {
   document.getElementById('share-overlay').classList.add('active');
@@ -1371,16 +1342,12 @@ function closeShareSheet(e) {
 
 function copyLink() {
   const url = window.location.href.split('?')[0];
-  const text = url;
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => showToast('✅ 链接已复制'));
+    navigator.clipboard.writeText(url).then(() => showToast('✅ 链接已复制'));
   } else {
     const el = document.createElement('textarea');
-    el.value = text;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
+    el.value = url; document.body.appendChild(el); el.select();
+    document.execCommand('copy'); document.body.removeChild(el);
     showToast('✅ 链接已复制');
   }
   document.getElementById('share-overlay').classList.remove('active');
@@ -1388,30 +1355,22 @@ function copyLink() {
 
 function copyAndGuide() {
   const url = window.location.href.split('?')[0];
-  const copyFn = () => {
+  const done = () => {
     const tip = document.getElementById('wechat-tip');
     if (tip) tip.style.display = 'flex';
     document.getElementById('share-overlay').classList.remove('active');
     showToast('✅ 链接已复制，去微信粘贴吧！');
   };
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(url).then(copyFn).catch(() => {
+    navigator.clipboard.writeText(url).then(done).catch(() => {
       const el = document.createElement('textarea');
-      el.value = url;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand('copy');
-      document.body.removeChild(el);
-      copyFn();
+      el.value = url; document.body.appendChild(el); el.select();
+      document.execCommand('copy'); document.body.removeChild(el); done();
     });
   } else {
     const el = document.createElement('textarea');
-    el.value = url;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-    copyFn();
+    el.value = url; document.body.appendChild(el); el.select();
+    document.execCommand('copy'); document.body.removeChild(el); done();
   }
 }
 
