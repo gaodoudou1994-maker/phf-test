@@ -669,6 +669,26 @@
     display: block;
   }
 
+  .wechat-tip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #E8F5E9;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .tip-icon { font-size: 16px; }
+
+  .tip-text {
+    font-size: 13px;
+    color: #2E7D32;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
   /* ===== TOAST ===== */
   .toast {
     position: fixed;
@@ -890,8 +910,12 @@
         <div class="share-title">分享给同事，找到你的饭搭子 🍱</div>
         <div class="share-sub">看看你们是天生一对还是饭桌冤家</div>
         <div class="share-btns">
-          <button class="btn-share-wx" onclick="openShareSheet()">分享到微信</button>
+          <button class="btn-share-wx" onclick="copyAndGuide()">📋 复制链接发微信</button>
           <button class="btn-share-copy" onclick="copyLink()">复制链接</button>
+        </div>
+        <div class="wechat-tip" id="wechat-tip" style="display:none">
+          <div class="tip-icon">✅</div>
+          <div class="tip-text">链接已复制！打开微信 → 粘贴发给朋友</div>
         </div>
       </div>
       <button class="btn-retry" onclick="retryTest()">重新测试</button>
@@ -913,7 +937,7 @@
         </div>
       </div>
       <div class="share-actions">
-        <button class="btn-share-wx" style="flex:1" onclick="showToast('📱 已生成分享图，请保存后发送')">保存图片分享</button>
+        <button class="btn-share-wx" style="flex:1" onclick="copyAndGuide()">📋 复制链接发微信</button>
         <button class="btn-share-copy" style="flex:1" onclick="copyLink()">复制链接</button>
       </div>
       <button class="btn-close-sheet" onclick="closeShareSheet()">取消</button>
@@ -1330,13 +1354,49 @@ function closeShareSheet(e) {
 }
 
 function copyLink() {
-  const text = '我在拼好饭测出了我的饭搭子人格，快来测测你是哪种打工人饭搭子！';
+  const url = window.location.href.split('?')[0];
+  const text = url;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text).then(() => showToast('✅ 链接已复制'));
   } else {
+    const el = document.createElement('textarea');
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
     showToast('✅ 链接已复制');
   }
   document.getElementById('share-overlay').classList.remove('active');
+}
+
+function copyAndGuide() {
+  const url = window.location.href.split('?')[0];
+  const copyFn = () => {
+    const tip = document.getElementById('wechat-tip');
+    if (tip) tip.style.display = 'flex';
+    document.getElementById('share-overlay').classList.remove('active');
+    showToast('✅ 链接已复制，去微信粘贴吧！');
+  };
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(copyFn).catch(() => {
+      const el = document.createElement('textarea');
+      el.value = url;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      copyFn();
+    });
+  } else {
+    const el = document.createElement('textarea');
+    el.value = url;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    copyFn();
+  }
 }
 
 function showToast(msg) {
